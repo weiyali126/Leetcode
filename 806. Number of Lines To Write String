@@ -1,4 +1,4 @@
-  题目与解题思路参考我的博文：https://blog.csdn.net/vir_lee/article/details/80467700//
+//  题目与解题思路参考我的博文：https://blog.csdn.net/vir_lee/article/details/80467700
 class Solution {
 public:
     vector<int> numberOfLines(vector<int>& widths, string S) {
