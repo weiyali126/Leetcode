@@ -21,7 +21,7 @@ public:
 };  
 
 
-//动态规划解法，Time Complexity O（N）
+//优化解法，Time Complexity O（N）
 class Solution {
 public:
     bool ht[10010]={false};
