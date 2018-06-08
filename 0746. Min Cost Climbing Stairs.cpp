@@ -38,3 +38,21 @@ public:
         return min(dp[n-1],dp[n-2]);  
     }  
 }; 
+
+优化：空间复杂度降至O（1）
+参考代码：
+
+class Solution {  
+public:  
+    int minCostClimbingStairs(vector<int>& cost) {  
+        int cnt=0,n=cost.size();  
+        vector<int> dp(3,0);  
+        dp[0]=cost[0];  
+        dp[1]=cost[1];  
+        for(int i=2;i<n;++i){  
+            dp[2]=min(dp[0],dp[1])+cost[i];  
+            dp[0]=dp[1];dp[1]=dp[2];  
+        }  
+        return min(dp[0],dp[1]);  
+    }  
+};  
