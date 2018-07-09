@@ -21,45 +21,46 @@ s.length will be between 1 and 50,000.s will only consist of "0" or "1" characte
 
 题意：给定一串序列，其中只包含0和1，让你统计其中包含0和1的特定序列（序列中的0和1必须是连续的）一共有多少个，可以重复统计如序列0011，满足条件的序列有01和0011.
 
-思路：
+思路1：
 
 
 1.使用变量k遍历序列，然后使用双指针i，j来判断当前序列是否满足条件，若满足计数器cnt加一，然后--i，++j，继续判断，直到倒数第二个为止。
 2.注意每轮第一组符合条件的序列特殊处理。
 参考代码：
-
 class Solution {
-
 public:
-
     int countBinarySubstrings(string s) {
-
         int cnt=0,k=0,i,j,n=s.size();
-
         for(;k<n-1;++k){
-
             if(s[k]==s[k+1]) continue;
-
             i=k;
-
             j=k+1;
-
             while(i>=0&&j<n){
-
                 if(i+1!=j&&(s[i]!=s[i+1]||s[j]!=s[j-1]))    //第一组特殊处理，判断i+1！=j
-
                     break;
-
                 cnt++;
-
                 --i;++j;
-
             }
-
         }
-
         return cnt;
-
     }
-
+};
+思路2：
+1.首先我们统计给定序列中连续0或连续1的个数，例如001110001111，个数分别为2，3，3，4；
+2.每次在0和1的分界处，对应子序列个数为0和1中较少的那一个的个数，如00111，对应子序列个数为min（2，3）=2。
+参考代码：
+class Solution {
+public:
+    int countBinarySubstrings(string s) {
+        int cur=1,pre=0,res=0;
+        for(int i=1;i<s.size();++i){
+            if(s[i]==s[i-1]) ++cur;
+            else{
+                res+=min(pre,cur);
+                pre=cur;
+                cur=1;
+            }
+        }
+        return res+min(pre,cur);
+    }
 };
