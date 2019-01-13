@@ -1,0 +1,77 @@
+Alice and Bob have candy bars of different sizes: A[i] is the size of the i-th bar of candy that Alice has, and B[j] is the size of the j-th bar of candy that Bob has.
+
+Since they are friends, they would like to exchange one candy bar each so that after the exchange, they both have the same total amount of candy.  (The total amount of candy a person has is the sum of the sizes of candy bars they have.)
+
+Return an integer array ans where ans[0] is the size of the candy bar that Alice must exchange, and ans[1] is the size of the candy bar that Bob must exchange.
+
+If there are multiple answers, you may return any one of them.  It is guaranteed an answer exists.
+
+ 
+
+Example 1:
+
+Input: A = [1,1], B = [2,2]
+Output: [1,2]
+
+
+Example 2:
+
+Input: A = [1,2], B = [2,3]
+Output: [1,2]
+
+
+Example 3:
+
+Input: A = [2], B = [1,3]
+Output: [2,3]
+
+
+Example 4:
+
+Input: A = [1,2,5], B = [2,4]
+Output: [5,4]
+
+
+ 
+
+Note:
+
+1 <= A.length <= 10000
+	1 <= B.length <= 10000
+	1 <= A[i] <= 100000
+	1 <= B[i] <= 100000
+	It is guaranteed that Alice and Bob have different total amounts of candy.
+	It is guaranteed there exists an answer.
+题意：给定两个数组A，B，让你交换其中的两个数字，使得两个数组的总和相等。
+
+思路：假设A中满足条件的数字为a，B中为b，则有下式成立，sumA-a+b=sumB+a-b，==>(sumA-sumB)/2=a-b(令=dif），
+
+则数组A中需要寻找的数字a=dif+b。对数组A中的数字构造散列表，然后对B中的每个数字B[i]，寻找B[i]+dif在A中是否存在，若存在即为答案。时间复杂度O(N+M),空间复杂度O（n）
+
+参考代码：
+
+class Solution {
+public:
+    vector<int> fairCandySwap(vector<int>& A, vector<int>& B) {
+        int n=A.size(),m=B.size();
+        unordered_map<int,bool> mp1;
+	    int sum1=0,sum2=0,dif=0;
+        vector<int> ans(2);
+	    for(int i=0;i<n;i++) {
+		    sum1+=A[i];
+		    mp1[A[i]]=1;
+	    }
+	    for(int i=0;i<m;i++) {
+	    	sum2+=B[i];
+    	}
+	    dif=(sum1-sum2)/2;
+        for(int i=0;i<m;i++){
+            if(mp1.count(B[i]+dif)!=0){
+                ans[0]=(B[i]+dif);
+                ans[1]=B[i];
+                break;
+            }
+        }
+        return ans;
+    }
+};
