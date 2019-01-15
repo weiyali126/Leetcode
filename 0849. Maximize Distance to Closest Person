@@ -1,0 +1,64 @@
+In a row of seats, 1 represents a person sitting in that seat, and 0 represents that the seat is empty. 
+
+There is at least one empty seat, and at least one person sitting.
+
+Alex wants to sit in the seat such that the distance between him and the closest person to him is maximized. 
+
+Return that maximum distance to closest person.
+
+Example 1:
+
+Input: [1,0,0,0,1,0,1]
+Output: 2
+Explanation: 
+If Alex sits in the second open seat (seats[2]), then the closest person has distance 2.
+If Alex sits in any other open seat, the closest person has distance 1.
+Thus, the maximum distance to the closest person is 2.
+
+Example 2:
+
+Input: [1,0,0,0]
+Output: 3
+Explanation: 
+If Alex sits in the last seat, the closest person is 3 seats away.
+This is the maximum distance possible, so the answer is 3.
+
+
+Note:
+
+1 <= seats.length <= 20000
+	seats contains only 0s or 1s, at least one 0, and at least one 1.
+题意：给定一个数组（只包含0和1），其中0表示空凳子，1表示有人占用，让你找到一个位置使得在此就坐的人距离最近的人的距离最大。
+
+思路：人能坐的位置一共有三种情况：
+
+①数组以0开始，此时座位在第一个位置，左边为空，右边有1。
+
+②座位两边均有1。
+
+③数组末位是0，此时座位右边为空，左边有1.
+
+分别讨论这三种情况即可。
+
+参考代码：
+--------------------- 
+class Solution {
+public:
+   
+    int maxDistToClosest(vector<int>& seats) {
+        int ans=0,i=0,n=seats.size();
+		while(i<n&&seats[i]!=1) i++;
+		ans=max(ans,i); //第一种情况
+		int prev=i;	//前一个1的位置
+		while(i<n){     //第二种情况
+			if(seats[i]==1){
+				int ind=prev+(i-prev)/2;
+				ans=max(ans,ind-prev);
+				prev=i;
+			}
+			i++;
+		}
+		ans=max(n-1-prev,ans);  //第三种情况
+        return ans;
+    }
+};
