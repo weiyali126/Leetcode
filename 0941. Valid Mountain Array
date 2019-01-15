@@ -1,0 +1,35 @@
+Given an array A of integers, return true if and only if it is a valid mountain array.
+Recall that A is a mountain array if and only if:
+A.length >= 3
+There exists some i with 0 < i < A.length - 1 such that: 
+A[0] < A[1] < ... A[i-1] < A[i] 
+A[i] > A[i+1] > ... > A[B.length - 1]
+ 
+Example 1:
+Input: [2,1]
+Output: false
+Example 2:
+Input: [3,5,5]
+Output: false
+Example 3:
+Input: [0,3,2,1]
+Output: true
+ 
+Note:
+0 <= A.length <= 10000
+0 <= A[i] <= 10000 
+
+思路：由于“山”特征的数组满足，最大值左侧严格递增，右侧严格递减，且“山顶”左侧至少有一组数满足小于关系，右侧至少一组数满足大于关系。
+ 因此，使用两个指针i从左往右递增遍历，j从右往左递减遍历，最后如果两个数相遇，则该数组满足先递增后递减的特征。
+ 
+ 参考代码：
+ class Solution {
+public:
+    bool validMountainArray(vector<int>& A) {
+        int n=A.size(),i=0,j=n-1; 
+        if(n<3) return false;   //数组至少三个数
+        while(i<j&&A[i]<A[i+1]) i++;
+        while(i<j&&A[j]<A[j-1]) j--;
+        return i!=0&&j!=n-1&&i==j;  //i!=0则左侧至少一组数满足小于关系，j!=n-1则右侧至少一组数满足大于关系
+    }
+};
