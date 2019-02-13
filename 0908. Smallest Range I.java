@@ -26,14 +26,14 @@ Note:
 
 参考代码：
 class Solution {
-public:
-    int smallestRangeI(vector<int>& A, int K) {
-        int mn=0,mx=0,dif;
-        for(int i=1;i<A.size();i++){
-            if(A[i]<A[mn]) mn=i;
-            if(A[i]>A[mx]) mx=i;
+    public int smallestRangeI(int[] A, int K) {
+        int min=Integer.MAX_VALUE;
+        int max= Integer.MIN_VALUE;
+        for(int i=0;i<A.length;i++){
+            if(A[i]>max) max=A[i];
+            if(A[i]<min) min=A[i];
         }
-        dif=A[mx]-A[mn];
+        int dif=max-min;
         return dif<=2*K?0:dif-2*K;
     }
-};
+}
